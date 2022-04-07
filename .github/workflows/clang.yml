@@ -1,0 +1,20 @@
+name: Run Clang to build C as WASM
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Try to run Clang
+      run: |
+        clang --target=wasm32 -nostdlib -Wl,--no-entry -Wl,--export-all -o test.wast -x c <(echo "int foo() { return -1; }")
